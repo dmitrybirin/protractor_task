@@ -1,0 +1,16 @@
+{
+  "name": "protractor_task",
+  "version": "1.0.0",
+  "description": "Task for the protractor UI automation",
+  "main": "conf.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dmitry Birin",
+  "license": "ISC",
+  "dependencies": {
+    "jasmine": "^2.8.0",
+    "jasmine-spec-reporter": "^4.2.1",
+    "protractor": "^5.1.2"
+  }
+}
