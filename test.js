@@ -1,8 +1,11 @@
-describe('Protractor Demo Test', function() {
+import HomePage from './pages/HomePage'
 
-    browser.get('https://tinkoff.ru')
+describe('Protractor Demo Test', function() {
     
     const mainMenuLinks = 'ul#mainMenu a'
+
+    const page = new HomePage()
+    page.get('/')
   
     it('should have a right title', 
         () => 
@@ -14,7 +17,7 @@ describe('Protractor Demo Test', function() {
 
     it('some test', async function () {
         let els = await getElementsByTextInArea(mainMenuLinks, 'Платежи')
-        el = await els[0].click()
+        let el = await els[0].click()
         console.log(await browser.getCurrentUrl())
     })
 

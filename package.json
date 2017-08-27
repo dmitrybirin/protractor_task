@@ -4,11 +4,15 @@
   "description": "Task for the protractor UI automation",
   "main": "conf.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/babel-cli/bin/babel-node.js node_modules/.bin/protractor protractor-conf.js"
   },
   "author": "Dmitry Birin",
   "license": "ISC",
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
     "jasmine": "^2.8.0",
     "jasmine-spec-reporter": "^4.2.1",
     "protractor": "^5.1.2"
