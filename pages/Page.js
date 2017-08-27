@@ -46,16 +46,12 @@ export default class Page {
       )
     }
 
-    get = (relativeUrl) => {
+    getRelativeUrl = (relativeUrl) => {
         browser.baseUrl = BaseUrl
         browser.get(relativeUrl)
         this.waitUntilDisplayed()
-        return this
     }    
 
-    maximize = () => { 
-        browser.manage().window().maximize()
-        return this
-    }
+    maximize = () => browser.manage().window().maximize()
 
   }

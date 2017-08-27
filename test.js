@@ -5,7 +5,7 @@ describe('Protractor Demo Test', function() {
     const mainMenuLinks = 'ul#mainMenu a'
 
     const page = new HomePage()
-    page.get('/')
+    page.get()
   
     it('should have a right title', 
         () => 
