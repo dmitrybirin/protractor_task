@@ -7,18 +7,24 @@ export default class Page {
      * This property is needed for the common isDisplayed and waitUntilDisplayed functions
      * @type {ElementFinder}
      */
-    selector = undefined
+    isAt = undefined
 
-    constructor(selector = undefined) {
-      this.selector = selector
+    constructor(isAt = undefined) {
+      this.isAt = isAt
     }
   
-    selectorGuard = () => {
-      if (this.selector === undefined) {
+    atGuard = () => {
+      if (this.isAt === undefined) {
         throw new TypeError(
           `Class '${this.constructor.name}' ` +
-            "extends 'Page' class have to implement property 'selector' " +
+            "extends 'Page' class has to implement property 'isAt' " +
             "when 'isDisplayed' or 'waitUntilDisplayed' are used",
+        )
+      }
+      else if (typeof this.isAt !== 'function'){
+        throw new TypeError(
+          `Class '${this.constructor.name}' ` +
+            "extends 'Page' class has to set property 'isAt' as function"
         )
       }
     }
@@ -27,38 +33,30 @@ export default class Page {
      * @returns bool of visibility of selector
      */
     isDisplayed = () => {
-      this.selectorGuard()
-      return protractor.ExpectedConditions.visibilityOf(element(this.selector))
+      this.atGuard()
+      return isAt()
     }
-
-    isCondition = async (condition) => {
-      if (!condition) throw new TypeError('condition function must present to get condition status')
-      else return condition()
-    }
-
 
     /**
      * Wait until the current page is displayed.
      */
-    waitUntilDisplayed = async () => {
-      let el = await element(this.selector)
-      this.selectorGuard()
+    waitUntilAtPage = () => {
+      this.atGuard()
       return browser.wait(
-        protractor.ExpectedConditions.visibilityOf(el),
+        this.isAt(),
         waitUntilDisplayedTimeout,
-        `Failed while waiting for "${el.locator()}" of 'Page' class 
-        '${this.constructor.name}' to display.`
+        `Failed while waiting for "${this.isAt.toString()}" of 'Page' class 
+        '${this.constructor.name}' to come true.`
       )
     }
 
     getRelativeUrl = (relativeUrl) => {
         browser.baseUrl = BaseUrl
         browser.get(relativeUrl)
-        return this.waitUntilDisplayed()
+        return this.waitUntilAtPage()
     }    
 
     maximize = () => browser.manage().window().maximize()
-
 
     getElementsTexts = async (areaSelector) => {
         const els = await element.all(areaSelector)
@@ -73,8 +71,7 @@ export default class Page {
       Array.prototype.filterAsync = function(fn) {
           return this.mapAsync(fn).then(_arr => this.filter((v, i) => !!_arr[i]))
       }
-      let filtered = await els.filterAsync(async el => el.getText().then(elText => {console.log(elText); return elText.toLowerCase() === text.toLowerCase()}))
-      console.log(filtered.length)
+      let filtered = await els.filterAsync(async el => el.getText().then(elText => elText.toLowerCase() === text.toLowerCase()))
       return filtered
     }
 

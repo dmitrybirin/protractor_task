@@ -1,27 +1,49 @@
-import HomePage from './pages/HomePage'
-import PaymentsPage from './pages/PaymentsPage'
+const HomePage = require('./pages/HomePage')
+// import PaymentsPage from './pages/PaymentsPage'
 
 const homePage = new HomePage()
 
 
 describe('Protractor Demo Test', () => {
     
-    describe("homepage", () => {
+    describe("Homepage", () => {
 
-      describe("when on homepage", () => {
-        
         beforeAll( async () => {
-          await homePage.get()
+          await homePage.goTo()
         })
-    
+        
         const pauseFunc = (t) => new Promise((res,rej) => setTimeout(()=>res('sup'), t*1000))
 
-        it("click", async () => {
-          await homePage.clickFirstLinkByName('Платежи')
-          let page = new PaymentsPage()
-          await page.waitUntilDisplayed()
+        it("Click to payment page and wait for it to display", async () => {
+          let paymentLink = await homePage.getFirstLinkByName('платежи')
+          paymentLink.click()
+          await pauseFunc(5)
+
+          // let page = new PaymentsPage()
+          // await page.waitUntilDisplayed()
         })
 
-      })
     })
+
+    describe("Payment page", ()=> {
+
+      it("Click on comm. services and wait for it to display", async () =>{
+
+      })
+
+    })
+
+    describe("When on Comm. Services", () => {
+
+      it("Assure that the chosen city is Moscow", async () => {
+
+      })
+
+      it("Validation checks", async () => {
+
+      })
+
+    })
+
+
   })

@@ -9,7 +9,8 @@ exports.config = {
   //custom reporter for the better expirience
   onPrepare: function () {
     browser.waitForAngularEnabled(false)
-    browser.ignoreSynchronization= true;
+    browser.ignoreSynchronization = true
+    global.EC = protractor.ExpectedConditions
     jasmine.getEnv().addReporter(new SpecReporter({
       spec: {
         displayStacktrace: true
