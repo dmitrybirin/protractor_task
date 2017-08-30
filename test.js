@@ -1,5 +1,5 @@
-const HomePage = require('./pages/HomePage')
-// import PaymentsPage from './pages/PaymentsPage'
+import HomePage from './pages/HomePage'
+import PaymentsPage from './pages/PaymentsPage'
 
 const homePage = new HomePage()
 
@@ -16,11 +16,9 @@ describe('Protractor Demo Test', () => {
 
         it("Click to payment page and wait for it to display", async () => {
           let paymentLink = await homePage.getFirstLinkByName('платежи')
-          paymentLink.click()
-          await pauseFunc(5)
-
-          // let page = new PaymentsPage()
-          // await page.waitUntilDisplayed()
+          await paymentLink.click()
+          let page = new PaymentsPage()
+          expect(await page.waitUntilAtPage()).toBeTruthy()
         })
 
     })
@@ -44,6 +42,4 @@ describe('Protractor Demo Test', () => {
       })
 
     })
-
-
   })

@@ -65,13 +65,13 @@ export default class Page {
 
     getElementsByTextInArea = async (areaSelector, text) => {
       const els = await element.all(areaSelector)
-      Array.prototype.mapAsync = function(fn) {
+      Array.prototype.mapAsync = async function(fn) {
           return Promise.all(this.map(fn))
       }
-      Array.prototype.filterAsync = function(fn) {
+      Array.prototype.filterAsync = async function(fn) {
           return this.mapAsync(fn).then(_arr => this.filter((v, i) => !!_arr[i]))
       }
-      let filtered = await els.filterAsync(async el => el.getText().then(elText => elText.toLowerCase() === text.toLowerCase()))
+      let filtered = await els.filterAsync(el => el.getText().then(elText => elText.toLowerCase() === text.toLowerCase()))
       return filtered
     }
 

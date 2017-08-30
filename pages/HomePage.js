@@ -1,6 +1,6 @@
 import Page from './Page'
 
-class HomePage extends Page {
+export default class HomePage extends Page {
 
     isAt = () => EC.visibilityOf($('div.rci_status_wrapper')) 
     
@@ -16,5 +16,3 @@ class HomePage extends Page {
     getFirstLinkByName = async (name) => {let els = await this.getElementsByTextInArea(this.mainMenuLinksSelector, name); return els[0]}
     
 }
-
-module.exports = HomePage
