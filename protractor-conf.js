@@ -9,6 +9,7 @@ exports.config = {
   //custom reporter for the better expirience
   onPrepare: function () {
     browser.waitForAngularEnabled(false)
+    browser.ignoreSynchronization= true;
     jasmine.getEnv().addReporter(new SpecReporter({
       spec: {
         displayStacktrace: true
@@ -19,4 +20,5 @@ exports.config = {
   jasmineNodeOpts: {
     print: function() {}
  },
+ SELENIUM_PROMISE_MANAGER: false
 }
