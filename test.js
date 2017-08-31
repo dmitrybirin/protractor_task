@@ -1,11 +1,12 @@
 import HomePage from './pages/HomePage'
 import PaymentsPage from './pages/PaymentsPage'
 import ComServices from './pages/ComServices'
+import ServicePage from './pages/ServicePage'
 
 let homePage = new HomePage()
 let paymentPage = new PaymentsPage()
 let comServicesPage = new ComServices()
-
+let servicePage = new ServicePage()
 
 describe('Protractor Demo Test', () => {
 
@@ -25,13 +26,6 @@ describe('Protractor Demo Test', () => {
     })
 
     describe("Payment page", ()=> {
-      
-      beforeAll( async () => {
-        if (!paymentPage.isAt()) {
-          console.log('Payment page not available, going to it...')
-          await paymentPage.goTo()
-        }
-      })
 
       it("Click on comm. services and wait for it to display", async () =>{
           await paymentPage.servicesLinks.comServices.waitAndClick()
@@ -55,12 +49,17 @@ describe('Protractor Demo Test', () => {
       it("Get First Service Element and go to the service page", async () =>{
         let service = await comServicesPage.getFirstServiceElement()
         let serviceName = await service.getText()
-        console.log(serviceName)
         service.waitAndClick()
+        expect(await servicePage.waitUntilAtPage()).toBeTruthy()
       })
 
-      it("Validation checks", async () => {
-          await pauseFunc(10)
+      it("Validation checks on payment tab", async () => {
+          await servicePage.secondTab.waitAndClick()
+          const input = servicePage.payerCodeInput.input
+          const validation = servicePage.payerCodeInput.validation
+
+          await input.sendKeys('123124', protractor.Key.ENTER)
+          expect(await validation.getText()).toBe('Поле неправильно заполнено')
       })
 
     })
