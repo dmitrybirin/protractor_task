@@ -5,8 +5,10 @@ export default class PaymentsPage extends Page {
 
   isAt = () => EC.visibilityOf($('.ui-menu_icons'))
 
-  linksSelector = by.css('.ui-menu_icons a')
+  goTo = () => this.getRelativeUrl('/payments')
 
-  getFirstLinkByName = async (name) => {let els = await this.getElementsByTextInArea(this.linksSelector, name); return els[0]}
+  servicesLinks = {
+    comServices: $('.ui-menu_icons').element(by.linkText('Коммунальные платежи'))
+  }
 
 }

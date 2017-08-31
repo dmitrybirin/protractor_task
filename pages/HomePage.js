@@ -4,7 +4,9 @@ export default class HomePage extends Page {
 
     isAt = () => EC.visibilityOf($('div.rci_status_wrapper')) 
     
-    mainMenuLinksSelector = by.css('ul#mainMenu a')
+    links = {
+        payments: $('ul#mainMenu').element(by.linkText("ПЛАТЕЖИ"))
+    }
     
     goTo = () => {
         this.maximize()
@@ -13,6 +15,4 @@ export default class HomePage extends Page {
 
     getLinkTexts = () => this.getElementsTexts(this.mainMenuLinksSelector)
 
-    getFirstLinkByName = async (name) => {let els = await this.getElementsByTextInArea(this.mainMenuLinksSelector, name); return els[0]}
-    
 }

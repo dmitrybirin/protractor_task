@@ -2,6 +2,15 @@ import { waitUntilDisplayedTimeout, BaseUrl } from '../testConfig.js'
 /**
  * Base page class for other components to inherit from.
  */
+
+protractor.ElementFinder.prototype.waitAndClick = async function() {
+  await browser.wait(
+    EC.elementToBeClickable(this),
+    waitUntilDisplayedTimeout,
+    `Failed while waiting for the link "${this.locator()}" with text to be clickable.`
+  )
+  await this.click()
+}
 export default class Page {
     /**
      * This property is needed for the common isDisplayed and waitUntilDisplayed functions
@@ -60,22 +69,16 @@ export default class Page {
 
     getElementsTexts = async (areaSelector) => {
         const els = await element.all(areaSelector)
-        return Promise.all(els.map(el => el.getText().then(elText => elText.toLowerCase())))
+        return Promise.all(els.map(async el => el.getText().then(elText => elText.toLowerCase())))
     }
 
-    getElementsByTextInArea = async (areaSelector, text) => {
-
-      const els = await element.all(areaSelector)
-
-      Array.prototype.mapAsync = function(fn) {
-          return Promise.all(this.map(fn))
-      }
-      Array.prototype.filterAsync = function(fn) {
-          return this.mapAsync(fn).then(_arr => this.filter((v, i) => !!_arr[i]))
-      }
-
-      let filtered = await els.filterAsync(async el => {let elText = await el.getText(); return elText.toLowerCase() === text.toLowerCase()})
-      return filtered
+    clickElement = async (el) => {
+      await browser.wait(
+        EC.elementToBeClickable(el),
+        waitUntilDisplayedTimeout,
+        `Failed while waiting for the link "${areaSelector}" with text'
+        '${text}' to be clickable.`
+      )
+      await el.click()
     }
-
   }
