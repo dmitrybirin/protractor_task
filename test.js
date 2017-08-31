@@ -49,7 +49,14 @@ describe('Protractor Demo Test', () => {
           let cityChanger = await comServicesPage.goToCityChanger()
           await cityChanger.citiesLinks.moscow.waitAndClick()
         }
-        expect(await comServicesPage.getCityName()).toBe()
+        expect(await comServicesPage.getCityName()).toBe(moscowText)
+      })
+
+      it("Get First Service Element and go to the service page", async () =>{
+        let service = await comServicesPage.getFirstServiceElement()
+        let serviceName = await service.getText()
+        console.log(serviceName)
+        service.waitAndClick()
       })
 
       it("Validation checks", async () => {
