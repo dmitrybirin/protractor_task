@@ -4,7 +4,8 @@ exports.config = {
   browserName: 'chrome',
   directConnect: true,
   framework: 'jasmine',
-  seleniumAddress: 'http://localhost:32768/wd/hub',
+  //for the selenium server
+  //seleniumAddress: 'http://localhost:32768/wd/hub',
   specs: ['test.js'],
   //custom reporter for the better expirience
   onPrepare: function () {

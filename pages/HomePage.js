@@ -12,7 +12,4 @@ export default class HomePage extends Page {
         this.maximize()
         return this.getRelativeUrl('/')
     }
-
-    getLinkTexts = () => this.getElementsTexts(this.mainMenuLinksSelector)
-
 }

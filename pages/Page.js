@@ -1,8 +1,8 @@
 import { waitUntilDisplayedTimeout, BaseUrl } from '../testConfig.js'
-/**
- * Base page class for other components to inherit from.
- */
 
+/**
+ * Waiting for the element to be clickable and click it
+ */
 protractor.ElementFinder.prototype.waitAndClick = async function() {
   await browser.wait(
     EC.elementToBeClickable(this),
@@ -12,6 +12,9 @@ protractor.ElementFinder.prototype.waitAndClick = async function() {
   await this.click()
 }
 
+/**
+ * Waiting for the element to be visible and returns the element
+ */
 protractor.ElementFinder.prototype.waitForVisible = async function() {
   await browser.wait(
     EC.visibilityOf(this),
@@ -21,6 +24,9 @@ protractor.ElementFinder.prototype.waitForVisible = async function() {
   return this
 }
 
+/**
+ * Base page class for other components to inherit from.
+ */
 export default class Page {
     /**
      * This property is needed for the common isDisplayed and waitUntilDisplayed functions
@@ -32,6 +38,9 @@ export default class Page {
       this.isAt = isAt
     }
   
+    /**
+     * guard for the isAt function
+     */
     atGuard = () => {
       if (this.isAt === undefined) {
         throw new TypeError(
@@ -40,24 +49,10 @@ export default class Page {
             "when 'isDisplayed' or 'waitUntilDisplayed' are used",
         )
       }
-      else if (typeof this.isAt !== 'function'){
-        throw new TypeError(
-          `Class '${this.constructor.name}' ` +
-            "extends 'Page' class has to set property 'isAt' as function"
-        )
-      }
     }
   
     /**
-     * @returns bool of visibility of selector
-     */
-    isDisplayed = () => {
-      this.atGuard()
-      return isAt()
-    }
-
-    /**
-     * Wait until the current page is displayed.
+     * Wait until the current page condition is met.
      */
     waitUntilAtPage = () => {
       this.atGuard()
@@ -69,30 +64,14 @@ export default class Page {
       )
     }
 
+    maximize = () => browser.manage().window().maximize()
+    
+    /**
+     * Getting to the page url and wait until the page is displayed.
+     */
     getRelativeUrl = (relativeUrl) => {
         browser.baseUrl = BaseUrl
         browser.get(relativeUrl)
         return this.waitUntilAtPage()
     }    
-
-    maximize = () => browser.manage().window().maximize()
-
-    getElementsTexts = async (areaSelector) => {
-        const els = await element.all(areaSelector)
-        return Promise.all(els.map(async el => {
-          await el.waitForVisible()
-          let elText = await el.getText()
-          return elText.toLowerCase()
-        }))
-    }
-
-    clickElement = async (el) => {
-      await browser.wait(
-        EC.elementToBeClickable(el),
-        waitUntilDisplayedTimeout,
-        `Failed while waiting for the link "${areaSelector}" with text'
-        '${text}' to be clickable.`
-      )
-      await el.click()
-    }
   }
