@@ -43,11 +43,13 @@ describe('Protractor Demo Test', () => {
     describe("When on Comm. Services", () => {
 
       it("Assure that the chosen city is Moscow", async () => {
+        const moscowText = 'Москве'
         let city = await comServicesPage.getCityName()
-        if (city !== 'Москва') {
-            let texts = await comServicesPage.changeCityTo()
-            console.log(texts)
+        if (city !== moscowText) {
+          let cityChanger = await comServicesPage.goToCityChanger()
+          await cityChanger.citiesLinks.moscow.waitAndClick()
         }
+        expect(await comServicesPage.getCityName()).toBe()
       })
 
       it("Validation checks", async () => {

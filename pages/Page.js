@@ -11,6 +11,16 @@ protractor.ElementFinder.prototype.waitAndClick = async function() {
   )
   await this.click()
 }
+
+protractor.ElementFinder.prototype.waitForVisible = async function() {
+  await browser.wait(
+    EC.visibilityOf(this),
+    waitUntilDisplayedTimeout,
+    `Failed while waiting for the link "${this.locator()}" with text to be visible.`
+  )
+  return this
+}
+
 export default class Page {
     /**
      * This property is needed for the common isDisplayed and waitUntilDisplayed functions
@@ -69,7 +79,11 @@ export default class Page {
 
     getElementsTexts = async (areaSelector) => {
         const els = await element.all(areaSelector)
-        return Promise.all(els.map(async el => el.getText().then(elText => elText.toLowerCase())))
+        return Promise.all(els.map(async el => {
+          await el.waitForVisible()
+          let elText = await el.getText()
+          return elText.toLowerCase()
+        }))
     }
 
     clickElement = async (el) => {
