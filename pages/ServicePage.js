@@ -1,6 +1,5 @@
 import Page from "./Page"
 import CityChanger from './CityChanger'
-// import InputObject from './InputObject'
 
 const inputObject = (selector) => ({
     input: selector.element(by.css('input')),
